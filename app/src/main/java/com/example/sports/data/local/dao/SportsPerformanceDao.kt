@@ -10,8 +10,8 @@ interface SportsPerformanceDao {
     @Query("SELECT * FROM sports_performances ORDER BY createdAt DESC")
     fun getAllPerformances(): Flow<List<SportsPerformanceEntity>>
 
-    @Query("SELECT * FROM sports_performances WHERE storageType = :storageType ORDER BY createdAt DESC")
-    fun getPerformancesByType(storageType: String): Flow<List<SportsPerformanceEntity>>
+    @Query("SELECT * FROM sports_performances ORDER BY createdAt DESC")
+    fun getPerformancesByType(): Flow<List<SportsPerformanceEntity>>
 
     @Query("SELECT * FROM sports_performances WHERE id = :id")
     suspend fun getPerformanceById(id: Long): SportsPerformanceEntity?

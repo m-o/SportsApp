@@ -12,6 +12,5 @@ data class SportsPerformanceEntity(
     val name: String,
     val location: String,
     val duration: Int,
-    val storageType: String,
     val createdAt: Long
 )

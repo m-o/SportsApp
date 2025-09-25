@@ -33,7 +33,7 @@ class SportsPerformanceRepositoryImpl(
 
     override fun getPerformancesByType(storageType: StorageType): Flow<List<SportsPerformance>> {
         return when (storageType) {
-            StorageType.LOCAL -> localDao.getPerformancesByType(storageType.name).map { entities ->
+            StorageType.LOCAL -> localDao.getPerformancesByType().map { entities ->
                 entities.map { SportsPerformanceMapper.fromEntityToDomain(it) }
             }
             StorageType.REMOTE -> firebaseDataSource.getAllPerformances().map { dtos ->

@@ -15,7 +15,7 @@ object SportsPerformanceMapper {
             name = entity.name,
             location = entity.location,
             duration = entity.duration,
-            storageType = StorageType.valueOf(entity.storageType),
+            storageType = StorageType.LOCAL, // Always LOCAL for database entities
             createdAt = Date(entity.createdAt)
         )
     }
@@ -26,7 +26,6 @@ object SportsPerformanceMapper {
             name = domain.name,
             location = domain.location,
             duration = domain.duration,
-            storageType = domain.storageType.name,
             createdAt = domain.createdAt.time
         )
     }
