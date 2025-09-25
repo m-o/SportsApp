@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1066554217795",
+    "firebase_url": "https://sportsinterview-c4d1e-default-rtdb.firebaseio.com",
+    "project_id": "sportsinterview-c4d1e",
+    "storage_bucket": "sportsinterview-c4d1e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066554217795:android:c475e861043fe42a238bf6",
+        "android_client_info": {
+          "package_name": "com.example.sports"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7Qn_WFenlEnVmHURfheOvL83hz3d7ATY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

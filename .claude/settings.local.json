@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew:*)",
+      "Bash(gcloud config get-value:*)",
+      "Bash(gcloud config list:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

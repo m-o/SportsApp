@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">sports</string>
+    <string name="sports_performances_title">Sports Performances</string>
+    <string name="add_performance_title">Add Performance</string>
+    <string name="add_performance">Add Performance</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_performance">Delete performance</string>
+    <string name="sport_name">Sport Name</string>
+    <string name="location">Location</string>
+    <string name="duration_minutes">Duration (minutes)</string>
+    <string name="storage_type">Storage Type</string>
+    <string name="filter_by_storage_type">Filter by storage type:</string>
+    <string name="filter_all">All</string>
+    <string name="filter_local">Local</string>
+    <string name="filter_remote">Remote</string>
+    <string name="location_label">Location: %1$s</string>
+    <string name="duration_label">Duration: %1$d minutes</string>
+    <string name="no_performances_message">No performances recorded yet</string>
+    <string name="please_fill_all_fields">Please fill all fields correctly</string>
+    <string name="failed_to_save_performance">Failed to save performance: %1$s</string>
+    <string name="failed_to_delete_performance">Failed to delete performance: %1$s</string>
+</resources>
