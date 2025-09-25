@@ -45,6 +45,11 @@ class PerformanceListViewModel(
         }
     }
 
+    fun refreshData() {
+        _uiState.value = _uiState.value.copy(isLoading = true)
+        loadPerformances()
+    }
+
     fun updateFilter(filter: FilterType) {
         _selectedFilter.value = filter
     }

@@ -9,32 +9,27 @@ data class SportsPerformanceDto(
     val name: String = "",
     val location: String = "",
     val duration: Int = 0,
-    val storageType: String = "REMOTE",
     val createdAt: Long = System.currentTimeMillis()
 )
 
 fun SportsPerformanceDto.toDomain(): SportsPerformance {
     return SportsPerformance(
-        id = id?.hashCode()?.toLong() ?: 0L, // Convert string ID to long for compatibility
+        localId = 0, // Firebase items don't have local IDs
+        firebaseId = id, // Store original Firebase ID
         name = name,
         location = location,
         duration = duration,
-        storageType = try {
-            StorageType.valueOf(storageType)
-        } catch (e: Exception) {
-            StorageType.REMOTE
-        },
+        storageType = StorageType.REMOTE,
         createdAt = Date(createdAt)
     )
 }
 
 fun SportsPerformance.toFirebaseDto(): SportsPerformanceDto {
     return SportsPerformanceDto(
-        id = if (id == 0L) null else id.toString(),
+        id = firebaseId, // Use original Firebase ID if available
         name = name,
         location = location,
         duration = duration,
-        storageType = storageType.name,
         createdAt = createdAt.time
     )
 }

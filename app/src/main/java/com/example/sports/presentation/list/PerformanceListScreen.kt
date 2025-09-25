@@ -33,6 +33,10 @@ fun PerformanceListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.refreshData()
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -88,7 +92,7 @@ fun PerformanceListScreen(
                     ) {
                         items(
                             items = uiState.performances,
-                            key = { it.id }
+                            key = { "${it.localId}_${it.firebaseId}" }
                         ) { performance ->
                             PerformanceItem(
                                 performance = performance,

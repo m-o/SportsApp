@@ -10,7 +10,8 @@ object SportsPerformanceMapper {
 
     fun fromEntityToDomain(entity: SportsPerformanceEntity): SportsPerformance {
         return SportsPerformance(
-            id = entity.id,
+            localId = entity.id,
+            firebaseId = null, // Local items don't have Firebase IDs
             name = entity.name,
             location = entity.location,
             duration = entity.duration,
@@ -21,7 +22,7 @@ object SportsPerformanceMapper {
 
     fun fromDomainToEntity(domain: SportsPerformance): SportsPerformanceEntity {
         return SportsPerformanceEntity(
-            id = domain.id,
+            id = domain.localId,
             name = domain.name,
             location = domain.location,
             duration = domain.duration,
@@ -30,25 +31,4 @@ object SportsPerformanceMapper {
         )
     }
 
-    fun fromDtoToDomain(dto: SportsPerformanceDto): SportsPerformance {
-        return SportsPerformance(
-            id = dto.id?.toLongOrNull() ?: 0,
-            name = dto.name,
-            location = dto.location,
-            duration = dto.duration,
-            storageType = StorageType.valueOf(dto.storageType),
-            createdAt = Date(dto.createdAt)
-        )
-    }
-
-    fun fromDomainToDto(domain: SportsPerformance): SportsPerformanceDto {
-        return SportsPerformanceDto(
-            id = if (domain.id != 0L) domain.id.toString() else null,
-            name = domain.name,
-            location = domain.location,
-            duration = domain.duration,
-            storageType = domain.storageType.name,
-            createdAt = domain.createdAt.time
-        )
-    }
 }

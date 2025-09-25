@@ -42,8 +42,8 @@ class SportsPerformanceRepositoryImpl(
         }
     }
 
-    override suspend fun getPerformanceById(id: Long): SportsPerformance? {
-        return localDao.getPerformanceById(id)?.let {
+    override suspend fun getPerformanceById(localId: Long): SportsPerformance? {
+        return localDao.getPerformanceById(localId)?.let {
             SportsPerformanceMapper.fromEntityToDomain(it)
         }
     }
@@ -57,7 +57,7 @@ class SportsPerformanceRepositoryImpl(
             StorageType.REMOTE -> {
                 val dto = performance.toFirebaseDto()
                 firebaseDataSource.insertPerformance(dto)
-                performance.id // Return the existing ID or generate one
+                performance.localId // Return the local ID (will be 0 for remote items)
             }
         }
     }
@@ -74,7 +74,7 @@ class SportsPerformanceRepositoryImpl(
                 localDao.deletePerformance(entity)
             }
             StorageType.REMOTE -> {
-                val firebaseId = performance.id.toString()
+                val firebaseId = performance.firebaseId ?: throw IllegalStateException("Firebase ID is null for remote performance")
                 firebaseDataSource.deletePerformance(firebaseId)
             }
         }
