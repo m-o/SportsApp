@@ -59,9 +59,7 @@ class PerformanceListViewModel(
             try {
                 repository.deletePerformance(performance)
             } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = "Failed to delete performance: ${e.message}"
-                )
+                _uiState.value = _uiState.value.copy(errorMessage = "Failed to delete performance: ${e.message}")
             }
         }
     }

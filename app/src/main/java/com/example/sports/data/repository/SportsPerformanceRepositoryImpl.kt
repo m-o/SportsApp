@@ -9,6 +9,7 @@ import com.example.sports.domain.model.SportsPerformance
 import com.example.sports.domain.model.StorageType
 import com.example.sports.domain.repository.SportsPerformanceRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
@@ -22,29 +23,33 @@ class SportsPerformanceRepositoryImpl(
             entities.map { SportsPerformanceMapper.fromEntityToDomain(it) }
         }
 
-        val firebaseFlow = firebaseDataSource.getAllPerformances().map { dtos ->
-            dtos.map { it.toDomain() }
-        }
+        val firebaseFlow = firebaseDataSource.getAllPerformances()
+            .map { dtos ->
+                dtos.map {
+                    it.toDomain()
+                }
+            }
+            .catch {
+                emit(emptyList())
+            }
 
-        return combine(localFlow, firebaseFlow) { localPerformances, firebasePerformances ->
+        return combine(
+            localFlow,
+            firebaseFlow
+        ) { localPerformances, firebasePerformances ->
             (localPerformances + firebasePerformances).sortedByDescending { it.createdAt }
         }
     }
 
     override fun getPerformancesByType(storageType: StorageType): Flow<List<SportsPerformance>> {
         return when (storageType) {
-            StorageType.LOCAL -> localDao.getPerformancesByType().map { entities ->
+            StorageType.LOCAL -> localDao.getAllPerformances().map { entities ->
                 entities.map { SportsPerformanceMapper.fromEntityToDomain(it) }
             }
-            StorageType.REMOTE -> firebaseDataSource.getAllPerformances().map { dtos ->
-                dtos.map { it.toDomain() }
-            }
-        }
-    }
 
-    override suspend fun getPerformanceById(localId: Long): SportsPerformance? {
-        return localDao.getPerformanceById(localId)?.let {
-            SportsPerformanceMapper.fromEntityToDomain(it)
+            StorageType.REMOTE -> firebaseDataSource.getAllPerformances()
+                .map { dtos -> dtos.map { it.toDomain() } }
+                .catch { emit(emptyList()) }
         }
     }
 
@@ -54,18 +59,15 @@ class SportsPerformanceRepositoryImpl(
                 val entity = SportsPerformanceMapper.fromDomainToEntity(performance)
                 localDao.insertPerformance(entity)
             }
+
             StorageType.REMOTE -> {
                 val dto = performance.toFirebaseDto()
                 firebaseDataSource.insertPerformance(dto)
-                performance.localId // Return the local ID (will be 0 for remote items)
+                performance.localId
             }
         }
     }
 
-    override suspend fun updatePerformance(performance: SportsPerformance) {
-        val entity = SportsPerformanceMapper.fromDomainToEntity(performance)
-        localDao.updatePerformance(entity)
-    }
 
     override suspend fun deletePerformance(performance: SportsPerformance) {
         when (performance.storageType) {
@@ -73,15 +75,13 @@ class SportsPerformanceRepositoryImpl(
                 val entity = SportsPerformanceMapper.fromDomainToEntity(performance)
                 localDao.deletePerformance(entity)
             }
+
             StorageType.REMOTE -> {
-                val firebaseId = performance.firebaseId ?: throw IllegalStateException("Firebase ID is null for remote performance")
+                val firebaseId = performance.firebaseId
+                    ?: throw IllegalStateException("Firebase ID is null for remote performance")
                 firebaseDataSource.deletePerformance(firebaseId)
             }
         }
     }
 
-    override suspend fun deleteAllPerformances() {
-        localDao.deleteAllPerformances()
-        firebaseDataSource.deleteAllPerformances()
-    }
 }

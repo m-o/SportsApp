@@ -22,7 +22,6 @@ class FirebaseSportsPerformanceDataSource {
             val key = performancesRef.push().key ?: throw Exception("Failed to generate key")
             val performanceWithId = performance.copy(id = key)
             performancesRef.child(key).setValue(performanceWithId).await()
-            Timber.d("Performance inserted successfully with key: $key")
             key
         } catch (e: Exception) {
             when (e.message?.contains("Permission denied")) {
@@ -39,6 +38,8 @@ class FirebaseSportsPerformanceDataSource {
     }
 
     fun getAllPerformances(): Flow<List<SportsPerformanceDto>> = callbackFlow {
+        trySend(emptyList())
+
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
@@ -80,6 +81,7 @@ class FirebaseSportsPerformanceDataSource {
         }
 
         try {
+            performancesRef.keepSynced(true)
             performancesRef.addValueEventListener(listener)
         } catch (e: Exception) {
             Timber.e(e, "Failed to add Firebase listener")
@@ -99,7 +101,6 @@ class FirebaseSportsPerformanceDataSource {
     suspend fun deletePerformance(performanceId: String) {
         try {
             performancesRef.child(performanceId).removeValue().await()
-            Timber.d("Performance deleted successfully: $performanceId")
         } catch (e: Exception) {
             when (e.message?.contains("Permission denied")) {
                 true -> {
@@ -108,24 +109,6 @@ class FirebaseSportsPerformanceDataSource {
                 }
                 else -> {
                     Timber.e(e, "Failed to delete performance: $performanceId")
-                    throw e
-                }
-            }
-        }
-    }
-
-    suspend fun deleteAllPerformances() {
-        try {
-            performancesRef.removeValue().await()
-            Timber.d("All performances deleted successfully")
-        } catch (e: Exception) {
-            when (e.message?.contains("Permission denied")) {
-                true -> {
-                    Timber.e("Firebase permission denied while deleting all performances. Check database security rules.")
-                    throw SecurityException("Permission denied: Check Firebase database security rules", e)
-                }
-                else -> {
-                    Timber.e(e, "Failed to delete all performances")
                     throw e
                 }
             }

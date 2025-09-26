@@ -7,9 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface SportsPerformanceRepository {
     fun getAllPerformances(): Flow<List<SportsPerformance>>
     fun getPerformancesByType(storageType: StorageType): Flow<List<SportsPerformance>>
-    suspend fun getPerformanceById(localId: Long): SportsPerformance?
     suspend fun insertPerformance(performance: SportsPerformance): Long
-    suspend fun updatePerformance(performance: SportsPerformance)
     suspend fun deletePerformance(performance: SportsPerformance)
-    suspend fun deleteAllPerformances()
 }

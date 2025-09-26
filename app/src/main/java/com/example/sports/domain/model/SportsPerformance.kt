@@ -3,11 +3,11 @@ package com.example.sports.domain.model
 import java.util.Date
 
 data class SportsPerformance(
-    val localId: Long = 0, // For local database items
-    val firebaseId: String? = null, // For Firebase items
+    val localId: Long = 0,
+    val firebaseId: String? = null,
     val name: String,
     val location: String,
-    val duration: Int, // in minutes
+    val duration: Int,
     val storageType: StorageType,
     val createdAt: Date = Date()
 )

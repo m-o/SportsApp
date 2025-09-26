@@ -3,7 +3,8 @@
     "allow": [
       "Bash(./gradlew:*)",
       "Bash(gcloud config get-value:*)",
-      "Bash(gcloud config list:*)"
+      "Bash(gcloud config list:*)",
+      "WebFetch(domain:firebase.google.com)"
     ],
     "deny": [],
     "ask": []
