@@ -10,6 +10,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 
 class FirebaseSportsPerformanceDataSource {
@@ -19,10 +20,12 @@ class FirebaseSportsPerformanceDataSource {
 
     suspend fun insertPerformance(performance: SportsPerformanceDto): String {
         return try {
-            val key = performancesRef.push().key ?: throw Exception("Failed to generate key")
-            val performanceWithId = performance.copy(id = key)
-            performancesRef.child(key).setValue(performanceWithId).await()
-            key
+            withTimeout(5000L) {
+                val key = performancesRef.push().key ?: throw Exception("Failed to generate key")
+                val performanceWithId = performance.copy(id = key)
+                performancesRef.child(key).setValue(performanceWithId).await()
+                key
+            }
         } catch (e: Exception) {
             when (e.message?.contains("Permission denied")) {
                 true -> {
@@ -81,8 +84,10 @@ class FirebaseSportsPerformanceDataSource {
         }
 
         try {
-            performancesRef.keepSynced(true)
-            performancesRef.addValueEventListener(listener)
+            withTimeout(5000L) {
+                performancesRef.keepSynced(true)
+                performancesRef.addValueEventListener(listener)
+            }
         } catch (e: Exception) {
             Timber.e(e, "Failed to add Firebase listener")
             trySend(emptyList())
@@ -100,7 +105,9 @@ class FirebaseSportsPerformanceDataSource {
 
     suspend fun deletePerformance(performanceId: String) {
         try {
-            performancesRef.child(performanceId).removeValue().await()
+            withTimeout(5000L) {
+                performancesRef.child(performanceId).removeValue().await()
+            }
         } catch (e: Exception) {
             when (e.message?.contains("Permission denied")) {
                 true -> {
