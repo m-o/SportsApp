@@ -4,7 +4,11 @@
       "Bash(./gradlew:*)",
       "Bash(gcloud config get-value:*)",
       "Bash(gcloud config list:*)",
-      "WebFetch(domain:firebase.google.com)"
+      "WebFetch(domain:firebase.google.com)",
+      "Bash(git log:*)",
+      "Bash(git filter-branch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
