@@ -53,26 +53,20 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation("androidx.navigation:navigation-compose:2.8.0")
 
-    // Room database
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
-    // ViewModel and LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
 
-    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    // Koin
     implementation("io.insert-koin:koin-android:3.5.3")
     implementation("io.insert-koin:koin-androidx-compose:3.5.3")
 
-    // Timber
     implementation("com.jakewharton.timber:timber:5.0.1")
 
-    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-database-ktx")
 

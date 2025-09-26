@@ -13,7 +13,6 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    // Database
     single {
         Room.databaseBuilder(
             androidContext(),
@@ -24,13 +23,10 @@ val appModule = module {
         .build()
     }
 
-    // DAO
     single { get<SportsDatabase>().sportsPerformanceDao() }
 
-    // Firebase Data Source
     single { FirebaseSportsPerformanceDataSource() }
 
-    // Repository
     single<SportsPerformanceRepository> {
         SportsPerformanceRepositoryImpl(
             localDao = get(),
@@ -38,7 +34,6 @@ val appModule = module {
         )
     }
 
-    // ViewModels
     viewModel { PerformanceListViewModel(get()) }
     viewModel { AddPerformanceViewModel(get()) }
 }

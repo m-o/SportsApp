@@ -13,10 +13,7 @@ class SportsApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Initialize Timber
         Timber.plant(Timber.DebugTree())
-
-        // Enable Firebase offline persistence
         Firebase.database.setPersistenceEnabled(true)
 
         startKoin {
