@@ -2,8 +2,6 @@ package com.example.sports.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.sports.domain.model.StorageType
-import java.util.Date
 
 @Entity(tableName = "sports_performances")
 data class SportsPerformanceEntity(

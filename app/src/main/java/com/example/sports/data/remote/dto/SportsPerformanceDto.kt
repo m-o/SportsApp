@@ -14,8 +14,8 @@ data class SportsPerformanceDto(
 
 fun SportsPerformanceDto.toDomain(): SportsPerformance {
     return SportsPerformance(
-        localId = 0, // Firebase items don't have local IDs
-        firebaseId = id, // Store original Firebase ID
+        localId = 0,
+        firebaseId = id,
         name = name,
         location = location,
         duration = duration,
@@ -26,7 +26,7 @@ fun SportsPerformanceDto.toDomain(): SportsPerformance {
 
 fun SportsPerformance.toFirebaseDto(): SportsPerformanceDto {
     return SportsPerformanceDto(
-        id = firebaseId, // Use original Firebase ID if available
+        id = firebaseId,
         name = name,
         location = location,
         duration = duration,
