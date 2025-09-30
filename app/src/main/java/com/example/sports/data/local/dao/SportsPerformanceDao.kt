@@ -13,6 +13,7 @@ interface SportsPerformanceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPerformance(performance: SportsPerformanceEntity): Long
 
+    // Return Int, count rows deleted
     @Delete
     suspend fun deletePerformance(performance: SportsPerformanceEntity)
 

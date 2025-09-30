@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class PerformanceListViewModel(
     private val repository: SportsPerformanceRepository
 ) : ViewModel() {
-
+    // Contract, UiState, UiData, UiAction, UiEvent, StateFlowViewModel
     private val _uiState = MutableStateFlow(PerformanceListUiState())
     val uiState: StateFlow<PerformanceListUiState> = _uiState.asStateFlow()
 
@@ -36,12 +36,15 @@ class PerformanceListViewModel(
                     FilterType.REMOTE -> performances.filter { it.storageType == StorageType.REMOTE }
                 }
 
+                // uiState.update{copy xy}
                 _uiState.value = _uiState.value.copy(
                     performances = filteredPerformances,
                     selectedFilter = filter,
                     isLoading = false
                 )
-            }.collect { }
+            }.collect {
+            // update ui state in collect
+            }
         }
     }
 
@@ -56,6 +59,7 @@ class PerformanceListViewModel(
 
     fun deletePerformance(performance: SportsPerformance) {
         viewModelScope.launch {
+            //runCatching, success/failure - update ui state
             try {
                 repository.deletePerformance(performance)
             } catch (e: Exception) {
@@ -66,6 +70,8 @@ class PerformanceListViewModel(
 
 }
 
+// move to separate classes
+// Contract, UiState, UiData, UiAction, UiEvent, StateFlowViewModel
 data class PerformanceListUiState(
     val performances: List<SportsPerformance> = emptyList(),
     val selectedFilter: FilterType = FilterType.ALL,

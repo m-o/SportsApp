@@ -47,6 +47,7 @@ fun AddPerformanceScreen(
                         )
                     }
                 },
+                // can be removed
                 modifier = Modifier.statusBarsPadding()
             )
         }

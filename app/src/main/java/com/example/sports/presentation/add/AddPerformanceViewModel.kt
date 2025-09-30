@@ -53,8 +53,9 @@ class AddPerformanceViewModel(
                     storageType = state.storageType
                 )
 
+                // check insert result for better error handling
                 repository.insertPerformance(performance)
-
+                //not needed
                 _uiState.value = AddPerformanceUiState()
                 onSuccess()
             } catch (e: Exception) {
